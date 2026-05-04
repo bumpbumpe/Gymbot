@@ -5,6 +5,7 @@ from telegram.ext import Application, MessageHandler, CommandHandler, filters, C
 from parser import parse_trainer_message, parse_athlete_message
 from database import init_db, save_workout_plan, save_workout_result, get_exercises_list
 from charts import send_exercise_chart
+import subprocess
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -113,6 +114,7 @@ async def cmd_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def main():
     init_db()
+        subprocess.run(["python", "seed_db.py"], check=False)
     app = Application.builder().token(TOKEN).build()
 
     app.add_handler(CommandHandler("start", cmd_start))
